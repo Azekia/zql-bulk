@@ -4,56 +4,61 @@ function value2sqlexpresion(valor) {
   let tipo = typeof valor;
   let retorno;
   switch (tipo) {
-      case 'string':
-          retorno = "'" + valor.replace(/'/g, "''") + "'";
-          break;
-      case 'number':
-          retorno = valor + '';
-          break;
-      case 'object':
-          if (valor === null) {
-              retorno = 'NULL';
-          } else if (valor instanceof Date) {
-              //AAAAMMDD hh:mm:ss.nnnnnn
-              retorno = "'";
-              retorno +=
-                  ('0000' + valor.getUTCFullYear()).slice(-4) +
-                  ('00' + (valor.getUTCMonth() + 1)).slice(-2) +
-                  ('00' + valor.getUTCDate()).slice(-2);
+    case "string":
+      retorno = "'" + valor.replace(/'/g, "''") + "'";
+      break;
+    case "number":
+      retorno = valor + "";
+      break;
+    case "object":
+      if (valor === null) {
+        retorno = "NULL";
+      } else if (valor instanceof Date) {
+        //AAAAMMDD hh:mm:ss.nnnnnn
+        retorno = "'";
+        retorno +=
+          ("0000" + valor.getUTCFullYear()).slice(-4) +
+          ("00" + (valor.getUTCMonth() + 1)).slice(-2) +
+          ("00" + valor.getUTCDate()).slice(-2);
 
-              if (valor.getUTCHours() || valor.getUTCMinutes() || valor.getUTCSeconds() || valor.getUTCMilliseconds()) {
-                  retorno +=
-                      ' ' +
-                      ('00' + valor.getUTCHours()).slice(-2) +
-                      ':' +
-                      ('00' + valor.getUTCMinutes()).slice(-2) +
-                      ':' +
-                      ('00' + valor.getUTCSeconds()).slice(-2) +
-                      '.' +
-                      ('000' + valor.getUTCMilliseconds()).slice(-3);
-              }
-              retorno += "'";
-          } else if (valor.expresion != undefined) {
-              retorno = valor.expresion;
-          } else {
-              console.error('valor no expresable en sql: ', valor);
-          }
-          break;
-      default:
-          console.error('value2sqlexpresion: tipo de datos no reconocido ' + valor);
-          break;
+        if (
+          valor.getUTCHours() ||
+          valor.getUTCMinutes() ||
+          valor.getUTCSeconds() ||
+          valor.getUTCMilliseconds()
+        ) {
+          retorno +=
+            " " +
+            ("00" + valor.getUTCHours()).slice(-2) +
+            ":" +
+            ("00" + valor.getUTCMinutes()).slice(-2) +
+            ":" +
+            ("00" + valor.getUTCSeconds()).slice(-2) +
+            "." +
+            ("000" + valor.getUTCMilliseconds()).slice(-3);
+        }
+        retorno += "'";
+      } else if (valor.expresion != undefined) {
+        retorno = valor.expresion;
+      } else {
+        console.error("valor no expresable en sql: ", valor);
+      }
+      break;
+    default:
+      console.error("value2sqlexpresion: tipo de datos no reconocido " + valor);
+      break;
   }
   return retorno;
 }
 
 function addItem2ListComma(lista, elemento, indent) {
-  if (lista == '') return (indent ? indent : '') +elemento ;
-  else return lista + ',' + (indent ? '\n'+indent : '') +elemento;
+  if (lista == "") return (indent ? indent : "") + elemento;
+  else return lista + "," + (indent ? "\n" + indent : "") + elemento;
 }
 
 function addItem2ListAnd(lista, elemento) {
-  if (lista == '') return '(' + elemento + ')';
-  else return lista + ' AND (' + elemento + ')';
+  if (lista == "") return "(" + elemento + ")";
+  else return lista + " AND (" + elemento + ")";
 }
 
 function bufToBigint(buf) {
@@ -86,7 +91,9 @@ function sqlClauseForCreateColumn(col) {
       return `[${col.colName}] SMALLINT ${nullable}`;
     case 56:
       return `[${col.colName}] INT ${nullable}`;
-    case 167:
+    case 127:
+      return `[${col.colName}] BIGINT ${nullable}`;
+    case (167, 231):
       return `[${col.colName}] NVARCHAR(${col.dataLength}) ${nullable}`;
     case 61:
       return `[${col.colName}] DATETIME ${nullable}`;
@@ -175,6 +182,13 @@ const TWrequest = (sqlConnection, queryText) =>
     sqlConnection.execSql(request);
   });
 
-export { TWconnect, TWrequest, 
-    sqlClauseForCreateTable, sqlClauseForCreateColumn, 
-    value2sqlexpresion, addItem2ListComma, addItem2ListAnd, bufToBigint};
+export {
+  TWconnect,
+  TWrequest,
+  sqlClauseForCreateTable,
+  sqlClauseForCreateColumn,
+  value2sqlexpresion,
+  addItem2ListComma,
+  addItem2ListAnd,
+  bufToBigint,
+};
