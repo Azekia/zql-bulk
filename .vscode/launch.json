@@ -13,8 +13,9 @@
             ],
             "program": "${workspaceFolder}\\bin\\index.mjs",
             "args": [
-                "--database=NAV32",
-                "--table=\"Customer\""
+                "--database","NAV32",
+                "--table", "EIFFAGE$Unit of Measure",
+                "--totable", "Unit of Measure",
             ],
             //"console": "integratedTerminal" // para que funcione Readline
         }

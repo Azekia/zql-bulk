@@ -109,3 +109,4 @@ dist
 *.acebase
 
 package-lock.json
+/test/results/*

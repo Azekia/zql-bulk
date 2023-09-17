@@ -3,7 +3,7 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import dotenv from "dotenv";
 import readline from "readline";
-import doCreate from "./doCreate.mjs";
+import doCreateFromSelect from "./doCreateFromSelect.mjs";
 
 async function main() {
   dotenv.config();
@@ -53,6 +53,11 @@ async function main() {
       type: "string",
       demandOption: false,
     })
+    .option("totable", {
+      describe: "Destination Table name",
+      type: "string",
+      demandOption: false,
+    })
     .parse();
 
   const argumentos = {
@@ -63,6 +68,7 @@ async function main() {
     database: argv.database || process.env.ZQLBULK_DATABASE,
     table: argv.table || process.env.ZQLBULK_TABLE,
     columns: argv.columns || process.env.ZQLBULK_COLUMNS || "*",
+    totable: argv.totable || undefined,
   };
 
   if (!argumentos.password) {
@@ -80,7 +86,10 @@ async function main() {
     console.log(JSON.stringify(argumentos, null, 4));
     inputLineFromUser.close();
   }
-  doCreate(argumentos);
+  console.log('--zql-bulk running...')
+  let cfs = await doCreateFromSelect(argumentos);
+  if (cfs) console.log(cfs)
+  else console.log('--doCreateFromSelect returns nothing')
   
 }
 
