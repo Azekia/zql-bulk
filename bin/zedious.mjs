@@ -42,7 +42,7 @@ function value2sqlexpresion(valor) {
         retorno = valor.expresion;
       } else {
         console.error("valor no expresable en sql: ", valor);
-        retorno = 'NULL';
+        retorno = "NULL";
       }
       break;
     default:
