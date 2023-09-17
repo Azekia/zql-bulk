@@ -1,44 +1,6 @@
-import { TWconnect, TWrequest } from "./tedwait.mjs";
+import { TWconnect, TWrequest, addItem2ListComma, sqlClauseForCreateTable,sqlClauseForCreateColumn } from "./zedious.mjs";
 
-function addItemToCommaList(list, item, newline) {
-  if (!list) {
-    return item;
-  } else {
-    return list + "," + (newline ? "\n" : "") + item;
-  }
-}
 
-function sqlClauseForCreateTable(tablename, columnclauses) {
-  return `CREATE TABLE [${tablename}] (\n${columnclauses}\n) `;
-}
-
-function sqlClauseForCreateColumn(col) {
-  let nullable = "NOT NULL"; // TODO: col.nullable?
-  switch (col.type.id) {
-    case 173: // binary ¿timestamp?
-      if (col.colName == "timestamp") {
-        return `[timestamp] TIMESTAMP`;
-      } else {
-        return `[${col.colName}] BYNARY NULL`;
-      }
-    case 106:
-      return `[${col.colName}] DECIMAL(${col.precision},${col.scale}) ${nullable}`;
-    case 48:
-      return `[${col.colName}] TINYINT ${nullable}`;
-    case 52:
-      return `[${col.colName}] SMALLINT ${nullable}`;
-    case 56:
-      return `[${col.colName}] INT ${nullable}`;
-    case 167:
-      return `[${col.colName}] NVARCHAR(${col.dataLength}) ${nullable}`;
-    case 61:
-      return `[${col.colName}] DATETIME ${nullable}`;
-    case 34:
-      return `[${col.colName}] IMAGE NULL`;
-    default:
-      return `[${col.colName}] ${col.type.id} ${col.type.type} ${col.type.name} ======================================================`;
-  }
-}
 
 async function doCreateFromSelect(argumentos) {
   const conOptions = {
@@ -52,8 +14,8 @@ async function doCreateFromSelect(argumentos) {
   const result = await TWrequest(sqlConnection, queryText);
   let columnclauses = "";
   for (let column in result.columns) {
-    let cfcc = '    '+sqlClauseForCreateColumn(result.columns[column]);
-    columnclauses = addItemToCommaList(columnclauses, cfcc, true);
+    let cfcc = sqlClauseForCreateColumn(result.columns[column]);
+    columnclauses = addItem2ListComma(columnclauses, cfcc, '    ');
   }
   let cfct = sqlClauseForCreateTable(
     argumentos.totable || argumentos.table,
@@ -63,4 +25,4 @@ async function doCreateFromSelect(argumentos) {
   return cfct;
 }
 
-export default doCreateFromSelect;
+export {doCreateFromSelect};

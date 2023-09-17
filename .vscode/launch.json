@@ -13,9 +13,11 @@
             ],
             "program": "${workspaceFolder}\\bin\\index.mjs",
             "args": [
+                "--action", "migrate",
                 "--database","NAV32",
-                "--table", "EIFFAGE$Unit of Measure",
-                "--totable", "Unit of Measure",
+                "--table", "Agencia",
+                //"--totable", "Prueba",
+                //"--where", "Code='KG'",
             ],
             //"console": "integratedTerminal" // para que funcione Readline
         }
