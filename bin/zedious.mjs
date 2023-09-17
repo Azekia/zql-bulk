@@ -94,10 +94,13 @@ function sqlClauseForCreateColumn(col) {
       return `[${col.colName}] INT ${nullable}`;
     case 127:
       return `[${col.colName}] BIGINT ${nullable}`;
-    case (167, 231):
+    case 167:
+    case 231:
       return `[${col.colName}] NVARCHAR(${col.dataLength}) ${nullable}`;
     case 61:
       return `[${col.colName}] DATETIME ${nullable}`;
+    case 36:
+      return `[${col.colName}] UNIQUEIDENTIFIER ${nullable}`;
     case 34:
       return `[${col.colName}] IMAGE NULL`;
     default:
