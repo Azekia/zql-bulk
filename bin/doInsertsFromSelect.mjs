@@ -15,7 +15,7 @@ async function doInsertsFromSelect(argumentos) {
   let listaCampos = "";
   for (let c in result.columns) {
     if (result.columns[c].colName == "timestamp") continue;
-    listaCampos = addItem2ListComma(listaCampos, result.columns[c].colName);
+    listaCampos = addItem2ListComma(listaCampos, `[${result.columns[c].colName}]`);
   }
   let ifs = "";
   for (let r in result.rows) {
