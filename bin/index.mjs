@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import readline from "readline";
 import {doCreateFromSelect} from "./doCreateFromSelect.mjs";
 import {doInsertsFromSelect} from "./doInsertsFromSelect.mjs";
+import { doJsonFromSelect } from "./doJsonFromSelect.mjs";
 
 async function main() {
   // ****************************************************************************************
@@ -66,6 +67,26 @@ async function main() {
       type: "string",
       demandOption: false,
     })
+    .option("blobAsBase64", {
+      describe: "activate to use base64 for BLOBs when export to json",
+      type: "boolean",
+      demandOption: false,
+    })
+    .option("blobAsSqlHex", {
+      describe: "activate to use hex (0x...) for BLOBs when export to json",
+      type: "boolean",
+      demandOption: false,
+    })
+    .option("blobAsArray", {
+      describe: "activate to use array format (default) for BLOBs when export to json",
+      type: "boolean",
+      demandOption: false,
+    })
+    .option("prettyJson", {
+      describe: "activate prettyJson (indent) when export to json",
+      type: "boolean",
+      demandOption: false,
+    })
     .parse();
 
   const argumentos = {
@@ -79,6 +100,10 @@ async function main() {
     columns: argv.columns || process.env.ZQLBULK_COLUMNS || "*",
     totable: argv.totable || undefined,
     where: argv.where || undefined,
+    blobAsSqlHex: argv.blobAsSqlHex || undefined,
+    blobAsBase64: argv.blobAsBase64 || undefined,
+    blobAsArray: argv.blobAsArray || undefined,
+    prettyJson: argv.prettyJson || undefined
   };
 
   if (!argumentos.password) {
@@ -103,7 +128,7 @@ async function main() {
 // ****************************************************************************************
 async function doAction(argumentos) {
   let done = false;
-  console.log(`--zql-bulk running... --action ${argumentos.action}`);
+  //console.log(`--zql-bulk running... --action ${argumentos.action}`);
   if (argumentos.action == "create" || argumentos.action == "migrate") {
     let cfs = await doCreateFromSelect(argumentos);
     if (cfs) {
@@ -121,6 +146,23 @@ async function doAction(argumentos) {
       done = true;
     } else console.log("--doInsertsFromSelect returns nothing");
   }
+  if (argumentos.action == "exportjson") {
+    let ej = await doJsonFromSelect(argumentos);
+    if (ej) {
+      //console.log(`-- JSON FROM TABLE ${argumentos.table} =============================================`);
+      console.log(ej);
+      done = true;
+    } else console.log("--doJsonFromSelect returns nothing");
+  }
+  if (argumentos.action == "importjson") {
+    let jtt = undefined; //await doJsonToTable(argumentos);
+    if (jtt) {
+      console.log(`-- JSON TO TABLE ${argumentos.table} =============================================`);
+      console.log(jtt);
+      done = true;
+    } else console.log("--doJsonToTable returns nothing");
+  }
+
   if (!done) console.log("--zql-bulk has done nothing (no --action?)");
   return done;
 }

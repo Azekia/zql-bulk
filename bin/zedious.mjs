@@ -38,15 +38,16 @@ function value2sqlexpresion(valor) {
             ("000" + valor.getUTCMilliseconds()).slice(-3);
         }
         retorno += "'";
+      } else if (Buffer.isBuffer(valor)) {
+        retorno = `'0x${(valor)?.toString('hex')?.toUpperCase()}'`
       } else if (valor.expresion != undefined) {
         retorno = valor.expresion;
       } else {
-        console.error("valor no expresable en sql: ", valor);
-        retorno = "NULL";
+        throw new Error("valor no expresable en sql: ") //+ valor)
       }
       break;
     default:
-      console.error("value2sqlexpresion: tipo de datos no reconocido " + valor);
+      throw new Error("value2sqlexpresion: tipo de datos no reconocido: "+ tipo)
       break;
   }
   return retorno;
@@ -76,7 +77,8 @@ function sqlClauseForCreateTable(tablename, columnclauses) {
 }
 
 function sqlClauseForCreateColumn(col) {
-  let nullable = "NOT NULL"; // TODO: col.nullable?
+  // parece que NULLABLE depende de un bit en col.flags (el bit menos significativo?)
+  let nullable = (col.flags & 1) ? "NULL" : "NOT NULL"; 
   switch (col.type.id) {
     case 173: // binary ¿timestamp?
       if (col.colName == "timestamp") {
@@ -91,6 +93,7 @@ function sqlClauseForCreateColumn(col) {
     case 52:
       return `[${col.colName}] SMALLINT ${nullable}`;
     case 56:
+    case 38:
       return `[${col.colName}] INT ${nullable}`;
     case 127:
       return `[${col.colName}] BIGINT ${nullable}`;
@@ -104,7 +107,8 @@ function sqlClauseForCreateColumn(col) {
     case 34:
       return `[${col.colName}] IMAGE NULL`;
     default:
-      return `[${col.colName}] ${col.type.id} ${col.type.type} ${col.type.name} ======================================================`;
+      console.error(col);
+      throw new Error(`TIPO [${col.colName}] ${col.type.id} ${col.type.type} ${col.type.name} !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!`);
   }
 }
 
