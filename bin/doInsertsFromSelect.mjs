@@ -27,7 +27,7 @@ async function doInsertsFromSelect(argumentos) {
     }
     ifs += `INSERT INTO [${
       argumentos.totable || argumentos.table
-    }] (${listaCampos})\n       VALUES (${listaValores})\n`;
+    }] (${listaCampos})\n       VALUES (${listaValores})\ngo\n\n`;
   }
   sqlConnection.close();
   return ifs;
