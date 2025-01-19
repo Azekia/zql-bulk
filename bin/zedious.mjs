@@ -39,7 +39,7 @@ function value2sqlexpresion(valor) {
         }
         retorno += "'";
       } else if (Buffer.isBuffer(valor)) {
-        retorno = `'0x${(valor)?.toString('hex')?.toUpperCase()}'`
+        retorno = `0x${(valor)?.toString('hex')?.toUpperCase()}`
       } else if (valor.expresion != undefined) {
         retorno = valor.expresion;
       } else {
