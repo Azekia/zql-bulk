@@ -144,7 +144,7 @@ Puedes usar la opción `--totable` para especificar una tabla de destino para la
 ### Variables de entorno
 
 Puedes usar variables de entorno en lugar de algunos parámetros.
-La asignar de valores a variables de entorno dependerá de tu sistema operativo y entorno de comandos: `SET` o `env`
+La asignar de valores a variables de entorno dependerá de tu sistema operativo y entorno de comandos: `SET` o `export`
 
 ```
   ZQLBULK_SERVER
