@@ -12,15 +12,23 @@ Una herramienta básica creada para Node.js que permite realizar importaciones d
 # Installation
 En un entorno con Node.js instalado, puedes instalar zql-bulk de forma global utilizando npm:
 
-```bash
+```
 git clone https://github.com/azekia/zql-bulk
 cd zql-bulk
-npm -g .
+npm i -g .
 ```
 
-Despues podrás usarlo desde el terminal con el comando `zql-bulk`
 
-```bash
+Para obtener actualizaciones, simplmente haz un `git pull` en el directorio del proyecto y vuelve a ejecutar `npm i -g .`
+
+```
+git pull
+npm i -g .
+```
+
+Podrás usar la utilidad directamente desde el terminal con el comando `zql-bulk`
+
+```
 C:\Users\antonio\Downloads>zql-bulk
 
 Usage: zql-bulk [options] (or use ZQLBULK_ env vars)
@@ -44,6 +52,20 @@ Options:
 Missing required arguments: action, server, user, database, table
 ```
 
-### Scripts de creación de tablas
 
+
+### Scripts para creación de tablas
+
+```
+$ zql-bulk --action create --server 192.168.1.5 --user administrador --password 123456 --database BC_LASNIEVES --table Familias
+
+-- CREATE TABLE Familias =================================================
+CREATE TABLE [Familias] (
+    [tos] INT NULL,
+    [familiaCod] NVARCHAR(50) NOT NULL,
+    [nombre] NVARCHAR(50) NOT NULL,
+    [familiaMadreCod] NVARCHAR(20) NOT NULL,
+    [orden] INT NOT NULL
+)
+```
 
