@@ -160,7 +160,7 @@ async function doAction(argumentos) {
       console.log(`-- JSON TO TABLE ${argumentos.table} =============================================`);
       console.log(jtt);
       done = true;
-    } else console.log("--doJsonToTable returns nothing");
+    } else console.log("--doJsonToTable returns nothing (NOT IMPLEMENTED)");
   }
 
   if (!done) console.log("--zql-bulk has done nothing (no --action?)");

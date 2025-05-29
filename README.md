@@ -56,11 +56,16 @@ Missing required arguments: action, server, user, database, table
 
 
 
-### Scripts para creación de tablas
+### Scripts para CREATE de tablas
+Usando la acción `create`, puedes generar scripts SQL para crear tablas basadas en el esquema de una tabla existente.
 
 ```
-$ zql-bulk --action create --server 192.168.1.5 --user administrador --password 123456 --database BC_LASNIEVES --table Familias
+$ zql-bulk --action create --server 192.168.1.5 --user administrador --password 123456 
+--database MIBD --table Familias --columns *
+```
+generará una salida similar a...
 
+```sql
 -- CREATE TABLE Familias =================================================
 CREATE TABLE [Familias] (
     [tos] INT NULL,
@@ -71,3 +76,65 @@ CREATE TABLE [Familias] (
 )
 ```
 
+Por el momento no se generan los índices ni las claves foráneas, pero puedes añadirlos manualmente al script generado.
+
+
+### Scripts para INSERTS de datos
+
+Usando la acción `insert`, puedes generar scripts SQL para insertar datos en una tabla específica.
+
+```
+$ zql-bulk --action insert --server 192.168.1.5 --user administrador --password 123456 
+--database MIBD --table Familias --columns 'familiaCod,nombre'
+```
+generará una salida similar a...
+
+```sql
+
+INSERT INTO [Familias] ([familiaCod],[nombre]) VALUES ('GS23','JUDIAS VERDES')
+go
+INSERT INTO [Familias] ([familiaCod],[nombre]) VALUES ('GS24','BERENJENAS')
+go
+
+```
+
+Puedes redirigir la salida a un archivo usando el operador `>` en la terminal:
+
+```
+$ zql-bulk --action insert --server 192.168.1.5 --user administrador --password 123456 
+--database MIBD --table Familias --columns 'familiaCod,nombre' > Familias.sql
+```
+
+### Archivo JSON con el contenido de las tablas
+
+Usando la acción `exportjson`, puedes generar un archivo JSON con el contenido de la tabla.
+
+```
+ zql-bulk --action exportjson --server 192.168.1.5 --user administrador --password 123456 
+ --database MIBD --table Familias --columns 'familiaCod,nombre' 
+ --where "familiaMadreCod='' and familiaCod LIKE '0%'" 
+ --prettyJson
+```
+generará una salida similar a...
+```json
+[
+  {
+    "familiaCod": "01",
+    "nombre": "ABONOS"
+  },
+  {
+    "familiaCod": "02",
+    "nombre": "PESTICIDAS"
+  }
+]
+```
+
+### Otras opciones
+
+Puedes usar las opciones `--prettyJson` para obtener un JSON más legible.
+
+Puedes usar las opciones `--blobAsBase64`, `--blobAsSqlHex` o `--blobAsArray` para formatear las columnas de tipo BLOB en diferentes formatos según te convenga.
+
+Puedes usar la opcion `--where` para filtrar los datos que se consideran para exportan a JSON o INSERTs.
+
+Puedes usar la opción `--totable` para especificar una tabla de destino para las inserciones.
