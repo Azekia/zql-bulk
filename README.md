@@ -140,3 +140,18 @@ Puedes usar las opciones `--blobAsBase64`, `--blobAsSqlHex` o `--blobAsArray` pa
 Puedes usar la opcion `--where` para filtrar los datos que se consideran para exportan a JSON o INSERTs.
 
 Puedes usar la opción `--totable` para especificar una tabla de destino para las inserciones.
+
+### Variables de entorno
+
+Puedes usar variables de entorno en lugar de algunos parámetros.
+La asignar de valores a variables de entorno dependerá de tu sistema operativo y entorno de comandos: `SET` o `env`
+
+```
+  ZQLBULK_SERVER
+  ZQLBULK_PORT
+  ZQLBULK_USER
+  ZQLBULK_PASSWORD
+  ZQLBULK_DATABASE
+  ZQLBULK_TABLE
+  ZQLBULK_COLUMNS
+``` 
