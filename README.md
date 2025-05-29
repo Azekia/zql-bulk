@@ -155,3 +155,5 @@ La asignar de valores a variables de entorno dependerá de tu sistema operativo 
   ZQLBULK_TABLE
   ZQLBULK_COLUMNS
 ``` 
+
+Si no se especifica password, la utilidad la solicitará en el momento de ejecución.
