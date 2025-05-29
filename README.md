@@ -1,6 +1,7 @@
 # zql-bulk
 
 Copyright 2022-2025 by AZEKIA Soluciones IT, SL
+https://azekia.com
 
 *Enjoy it under the MIT License (see LICENSE.md)*
 
