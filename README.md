@@ -16,7 +16,8 @@ En un entorno con Node.js instalado, puedes instalar zql-bulk de forma global ut
 ```bash
 git clone https://github.com/azekia/zql-bulk
 cd zql-bulk
-npm -g .
+npm i
+npm i -g .
 ```
 
 Despues podrás usarlo desde el terminal con el comando `zql-bulk`
