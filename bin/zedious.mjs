@@ -99,7 +99,7 @@ function sqlClauseForCreateColumn(col) {
       return `[${col.colName}] BIGINT ${nullable}`;
     case 167:
     case 231:
-      return `[${col.colName}] NVARCHAR(${col.dataLength}) ${nullable}`;
+      return `[${col.colName}] NVARCHAR(${col.dataLength/2}) ${nullable}`;
     case 61:
       return `[${col.colName}] DATETIME ${nullable}`;
     case 36:
