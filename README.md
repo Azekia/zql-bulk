@@ -1,11 +1,12 @@
 # zql-bulk
+Una herramienta básica creada para Node.js que permite realizar importaciones de datos desde SQL Server
 
 Copyright 2022-2025 by AZEKIA Soluciones IT, SL
 https://azekia.com
 
 *Enjoy it under the MIT License (see LICENSE.md)*
 
-Una herramienta básica creada para Node.js que permite realizar importaciones de datos desde SQL Server generando:
+Con esta herramienta podrás crear desde línea de comandos:
  
  - Scripts SQL para crear tablas
  - Scripts SQL para insertar datos con el contenido de las tablas
